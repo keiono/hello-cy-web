@@ -4,13 +4,16 @@ import webpack from 'webpack'
 import packageJson from './package.json' assert { type: 'json' }
 
 const { ModuleFederationPlugin } = webpack.container
+
 // Extract some properties from the package.json file to avoid duplication
-const deps = packageJson.dependencies
+const deps = packageJson.peerDependencies
 
 const { name } = packageJson
 
 const __filename = url.fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
+
+const DEV_SERVER_PORT = 3000
 
 export default {
   mode: 'development',
@@ -22,9 +25,9 @@ export default {
   entry: './src/index.ts',
   output: {
     clean: true,
-    path: path.resolve(__dirname, 'dist'),
-    filename: `${name}.js`,
-    publicPath: 'http://localhost:3000/',
+    // path: path.resolve(__dirname, 'dist'),
+    // filename: `${name}.js`,
+    publicPath: `http://localhost:${DEV_SERVER_PORT}/`,
     library: {
       type: 'module',
     },
@@ -32,16 +35,21 @@ export default {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
   },
-
   plugins: [
     new ModuleFederationPlugin({
       name: 'HelloCyWeb',
       filename: 'remoteEntry.js',
       exposes: {
-        './HelloWorld': './src/index.ts',
+        './HelloApp': './src/HelloApp',
+        './HelloPanel': './src/components/HelloPanel',
       },
-      remotes: {
-        CytoscapeWeb: 'CytoscapeWeb@http://localhost:5500/remoteEntry.js',
+      shared: {
+        react: { singleton: true, eager: true, requiredVersion: deps['react'] },
+        'react-dom': {
+          singleton: true,
+          eager: true,
+          requiredVersion: deps['react-dom'],
+        },
       },
     }),
   ],
@@ -59,6 +67,6 @@ export default {
   },
   devServer: {
     hot: true,
-    port: 3000,
+    port: DEV_SERVER_PORT,
   },
 }
