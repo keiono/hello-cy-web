@@ -6,7 +6,7 @@ import packageJson from './package.json' assert { type: 'json' }
 const { ModuleFederationPlugin } = webpack.container
 
 // Extract some properties from the package.json file to avoid duplication
-const deps = packageJson.peerDependencies
+const deps = packageJson.dependencies
 
 const { name } = packageJson
 
@@ -37,19 +37,10 @@ export default {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'HelloCyWeb',
+      name: 'hello',
       filename: 'remoteEntry.js',
       exposes: {
         './HelloApp': './src/HelloApp',
-        './HelloPanel': './src/components/HelloPanel',
-      },
-      shared: {
-        react: { singleton: true, eager: true, requiredVersion: deps['react'] },
-        'react-dom': {
-          singleton: true,
-          eager: true,
-          requiredVersion: deps['react-dom'],
-        },
       },
     }),
   ],
@@ -68,5 +59,8 @@ export default {
   devServer: {
     hot: true,
     port: DEV_SERVER_PORT,
+    headers: {
+      'Access-Control-Allow-Origin': '*', // allow access from any origin
+    },
   },
 }

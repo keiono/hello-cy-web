@@ -1,4 +1,4 @@
-export interface CyApp {
+interface CyApp {
   id: string
   name: string
   url: string
