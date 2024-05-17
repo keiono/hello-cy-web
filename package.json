@@ -1,0 +1,17 @@
+{
+  "name": "hello-cy-web",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "dist/hello-cy-web.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js",
+    "dev": "webpack serve --open --mode development"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zustand": "^4.5.2"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
