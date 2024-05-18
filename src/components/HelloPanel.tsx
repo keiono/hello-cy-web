@@ -4,6 +4,8 @@ interface HelloPanelProps {
   message: string
 }
 
-export const HelloPanel = ({ message }: HelloPanelProps): JSX.Element => {
-  return <h1>Hello, Cytoscape world ==== {message}</h1>
+const HelloPanel = ({ message }: HelloPanelProps): JSX.Element => {
+  return <h5>Hello, Cytoscape from external server! {message}</h5>
 }
+
+export default HelloPanel

@@ -25,8 +25,8 @@ export default {
   entry: './src/index.ts',
   output: {
     clean: true,
-    // path: path.resolve(__dirname, 'dist'),
-    // filename: `${name}.js`,
+    path: path.resolve(__dirname, 'dist'),
+    filename: `${name}.js`,
     publicPath: `http://localhost:${DEV_SERVER_PORT}/`,
     library: {
       type: 'module',
@@ -41,6 +41,11 @@ export default {
       filename: 'remoteEntry.js',
       exposes: {
         './HelloApp': './src/HelloApp',
+        './HelloPanel': './src/components/HelloPanel.tsx',
+      },
+      shared: {
+        react: { singleton: true, requiredVersion: deps.react },
+        'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
       },
     }),
   ],
