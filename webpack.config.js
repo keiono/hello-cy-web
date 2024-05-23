@@ -39,6 +39,10 @@ export default {
     new ModuleFederationPlugin({
       name: 'hello',
       filename: 'remoteEntry.js',
+      remotes: {
+        // Import some data providers from the host applicationu
+        cyweb: 'cyweb@http://localhost:5500/remoteEntry.js',
+      },
       exposes: {
         './HelloApp': './src/HelloApp',
         './HelloPanel': './src/components/HelloPanel.tsx',
