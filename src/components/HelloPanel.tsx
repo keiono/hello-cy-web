@@ -1,44 +1,28 @@
 import React, { useEffect, useState } from 'react'
 
-interface HelloPanelProps {
-  message: string,
-  
-}
+// Dynamic import from the host app
+import { useWorkspaceStore } from 'cyweb/WorkspaceStore'
 
-const loadModule = async (): Promise<any> => {
-  try {
-    const module = await import('cyweb/useDataStore')
-    console.log('######### Loaded useDataStore Hook:', module, module.default)
-    return module.default
-  } catch (err) {
-    console.error('Failed to load useDataStore Hook', err)
-  }
+interface HelloPanelProps {
+  message: string
 }
 
 const HelloPanel = ({ message }: HelloPanelProps): JSX.Element => {
-  const [useDataStore, setUseDataStore] = useState(null)
+  console.log('useWorkspace:', useWorkspaceStore)
 
   useEffect(() => {
-    const loadModule = async () => {
-      try {
-        const module = await import('cyweb/useDataStore')
-        console.log(
-          '######### Loaded useDataStore Hook:',
-          module,
-          module.default,
-        )
-        setUseDataStore(module.default)
-      } catch (err) {
-        console.error('Failed to load useDataStore Hook', err)
-      }
-    }
+    console.log('useWorkspace updated:', useWorkspaceStore)
+  }, [useWorkspaceStore])
 
-    loadModule()
-  }, [])
+  const workspace = useWorkspaceStore((state: any) => state.workspace)
+  console.log('workspace:', workspace)
 
-  console.log('Ready##:', useDataStore)
-
-  return <h5>Hello, Cytoscape from external server! {message}</h5>
+  return (
+    <div>
+      <h5>Hello, Cytoscape from external server! {message}</h5>
+      <p>Current Netork ID: {workspace.currentNetworkId}</p>
+    </div>
+  )
 }
 
 export default HelloPanel

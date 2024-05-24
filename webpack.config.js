@@ -40,7 +40,7 @@ export default {
       name: 'hello',
       filename: 'remoteEntry.js',
       remotes: {
-        // Import some data providers from the host applicationu
+        // Import some data providers from the host application
         cyweb: 'cyweb@http://localhost:5500/remoteEntry.js',
       },
       exposes: {
