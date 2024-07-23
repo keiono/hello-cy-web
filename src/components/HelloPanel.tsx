@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 // Dynamic import from the host app
 import { useWorkspaceStore } from 'cyweb/WorkspaceStore'
@@ -8,19 +8,19 @@ interface HelloPanelProps {
 }
 
 const HelloPanel = ({ message }: HelloPanelProps): JSX.Element => {
-  console.log('useWorkspace:', useWorkspaceStore)
+  const workspace = useWorkspaceStore((state: any) => state.workspace)
+
+  const { networkIds } = workspace
 
   useEffect(() => {
-    console.log('useWorkspace updated:', useWorkspaceStore)
-  }, [useWorkspaceStore])
-
-  const workspace = useWorkspaceStore((state: any) => state.workspace)
-  console.log('workspace:', workspace)
+    console.log('Hello Panel initialized with workspace:::', workspace)
+  }, [])
 
   return (
     <div>
       <h5>Hello, Cytoscape from external server! {message}</h5>
-      <p>Current Netork ID: {workspace.currentNetworkId}</p>
+      <p>Current Network ID: {workspace.currentNetworkId}</p>
+      <p>Networks: {networkIds}</p>
     </div>
   )
 }
